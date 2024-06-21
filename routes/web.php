@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\Game;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +17,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Route::get('/games', function () {
+//     $games = Game::all();
+
+//     // dd($game);
+//     return view('games', ['games' => $games]);
+
+// });
+
+
+
