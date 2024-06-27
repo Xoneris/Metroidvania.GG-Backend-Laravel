@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Game extends Model {
     protected $table = 'api_game';
     use HasFactory;
+
+    public function reports() {
+        return $this->hasMany(Reports::class);
+    }
 }

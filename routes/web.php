@@ -18,13 +18,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Route::get('/games', function () {
-//     $games = Game::all();
 
-//     // dd($game);
-//     return view('games', ['games' => $games]);
-
-// });
 
 
 

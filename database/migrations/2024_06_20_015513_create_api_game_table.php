@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('developer');
             $table->string('publisher');
             $table->string('release_window')->nullable();
-            $table->date('release_date')->nullable();
+            $table->date('release_date')->nullable()->default(NULL);
             $table->text('description');
             // Demo, EA, Kickstarter info
             $table->boolean('demo');

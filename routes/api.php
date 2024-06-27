@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Game;
+use App\Models\Reports;
 use Illuminate\Support\Facades\Http;
 
 /*
@@ -76,7 +77,7 @@ Route::get('/games/TBD', function () {
 
 Route::get('/games/2024', function () {
     $tomorrow = date("Y-m-d",strtotime("tomorrow"));
-    $games = Game::where('release_window', '2024')
+    $games = Game::where('release_window', 'LIKE', '%2024%')
         ->orWhereBetween('release_date', [$tomorrow,'2024-12-31'])
         ->inRandomOrder() 
         ->get();
@@ -84,7 +85,7 @@ Route::get('/games/2024', function () {
 });
 
 Route::get('/games/2025', function () {
-    $games = Game::where('release_window', '2025')
+    $games = Game::where('release_window', 'LIKE', '%2025%')
         ->orWhereBetween('release_date', ['2025-01-01','2025-12-31'])
         ->inRandomOrder() 
         ->get();
@@ -92,7 +93,7 @@ Route::get('/games/2025', function () {
 });
 
 Route::get('/games/2026', function () {
-    $games = Game::where('release_window', '2026')
+    $games = Game::where('release_window', 'LIKE', '%2026%')
         ->orWhereBetween('release_date', ['2026-01-01','2026-12-31'])
         ->inRandomOrder() 
         ->get();
@@ -159,4 +160,33 @@ Route::get('/games/steamID/{steamappid}', function ($steamAppId){
     } else {
         return response()->json(['error' => 'failed to fetch from steam api'], $steamReviews->status());
     }
+});
+
+Route::get('/report', function() {
+    $reports = Reports::all();
+    return response()->json($reports);
+});
+
+Route::post('/report', function (Request $request) {
+
+    $validated = $request->validate([
+        'game' => 'required|string',
+        'report' => 'required|string',
+        'status' => 'required|string',
+    ]);
+
+    // $report = Reports::create([
+    //     'game_name'->$request('game_name'),
+    //     'report'->$request('report'),
+    //     'status'->$request('status'),
+    // ]);
+
+    $report = new Reports;
+    $report->game_name = $request->game;
+    $report->report = $request->report;
+    $report->status = $request->status; 
+    $report->save();
+
+    return response()->json("Thank you for your report!");
+
 });
