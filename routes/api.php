@@ -173,13 +173,7 @@ Route::post('/report', function (Request $request) {
         'game' => 'required|string',
         'report' => 'required|string',
         'status' => 'required|string',
-    ]);
-
-    // $report = Reports::create([
-    //     'game_name'->$request('game_name'),
-    //     'report'->$request('report'),
-    //     'status'->$request('status'),
-    // ]);
+    ]); 
 
     $report = new Reports;
     $report->game_name = $request->game;
