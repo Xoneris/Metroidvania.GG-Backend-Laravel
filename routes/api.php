@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Models\Game;
 use App\Models\Reports;
 use Illuminate\Support\Facades\Http;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,9 +18,12 @@ use Illuminate\Support\Facades\Http;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
 Route::get('/games', function () {
     $games = Game::all();
