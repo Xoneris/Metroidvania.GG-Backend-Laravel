@@ -9,6 +9,9 @@ class Game extends Model {
     protected $table = 'api_game';
     use HasFactory;
 
+    protected $guarded = ['id'];
+    public $timestamps = false;
+
     public function reports() {
         return $this->hasMany(Reports::class);
     }

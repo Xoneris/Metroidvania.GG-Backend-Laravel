@@ -25,6 +25,62 @@ use App\Http\Controllers\AuthController;
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
+// Route::post('/games', function (Request $request) {
+
+// $validatedGame = $request->validate([
+//     'name' => 'required|string',
+//     'slug' => 'required|string',
+//     'developer' => 'required|string',
+//     'publisher' => 'required|string',
+//     'release_window' => 'string|null',
+//     'release_date' => 'date|null',
+//     'description' => 'required|string',
+//     'demo' => 'required|boolean',
+//     'earlyaccess' => 'required|boolean',
+//     'kickstarter_status' => 'string|null',
+//     'kickstarter_page' => 'string|null',
+//     'steam' => 'string|null',
+//     'epic' => 'string|null',
+//     'gog' => 'string|null',
+//     'playstation' => 'string|null',
+//     'xbox' => 'string|null',
+//     'nintendo' => 'string|null',
+//     'twitter' => 'string|null',
+//     'facebook' => 'string|null',
+//     'instagram' => 'string|null',
+//     'tiktoc' => 'string|null',
+//     'youtube' => 'string|null',
+//     'discord' => 'string|null',
+//     'homepage' => 'string|null',
+// ]);
+//     Game::create($request->all());
+
+
+// })->middleware('auth:sanctum');
+
+Route::put('/games/{id}', function (Request $request, $id) {
+
+    $game = Game::find($id);
+    if (!$game) {
+        return response()->json(['error' => 'Game with this id doesnt exist'], 404);
+    }
+    // $validatedGame = $request->validate([
+    //     'name' => 'required|string',
+    //     'release_window' => 'string|null',
+    //     'release_date' => 'date|null',
+    //     'demo' => 'required|boolean',
+    //     'earlyaccess' => 'required|boolean',
+    //     'kickstarter_status' => 'string|null',
+    // ]);
+    
+    $game->update($request->all());
+    return response()->json(['message' => 'Game updated!', 'game' => $game], 200);
+    // return $request;
+    // return response()->json($game);
+    
+
+})->middleware('auth:sanctum');
+
 Route::get('/games', function () {
     $games = Game::all();
     return response()->json($games);
