@@ -18,9 +18,9 @@ use App\Http\Controllers\AuthController;
 |
 */
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+Route::get('/user', function (Request $request) {
+    return $request->user();
+})->middleware('auth:sanctum');
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
@@ -100,26 +100,21 @@ Route::put('/games/{id}', function (Request $request, $id) {
 })->middleware('auth:sanctum');
 
 Route::patch('/games/{id}', function (Request $request, $id) {
-
     $game = Game::find($id);
     if (!$game) {
         return response()->json(['error' => 'Game with this id doesnt exist'], 404);
     }
-    // $validatedGame = $request->validate([
-    //     'name' => 'required|string',
-    //     'release_window' => 'string',
-    //     'release_date' => 'date',
-    //     'demo' => 'required|boolean',
-    //     'earlyaccess' => 'required|boolean',
-    //     'kickstarter_status' => 'string|null',
-    // ]);
-    
-    $game->update($request->all());
+    $validatedGame = $request->validate([
+        'name' => 'required|string',
+        'release_window' => 'string|nullable',
+        'release_date' => 'date|nullable',
+        'demo' => 'required|boolean',
+        'earlyaccess' => 'required|boolean',
+        'kickstarter_status' => 'string|nullable',
+        'trailer' => 'required|string'
+    ]);
+    $game->update($validatedGame);
     return response()->json(['message' => 'Game updated!', 'game' => $game], 200);
-    // return $request;
-    // return response()->json($game);
-    
-
 })->middleware('auth:sanctum');
 
 Route::get('/games', function () {
